@@ -1,0 +1,150 @@
+
+/**
+ * モバイルのデバイスの機種を判別してscopeの変数に格納する
+ * @return {void} [description]
+ */
+saveMobileMacineInfo() {
+
+    var ua = window.navigator.userAgent.toLowerCase();
+
+    if (ua.indexOf("iphone") !== -1) {
+        Nasikusa.data.mobileMacine = "iphone";
+    } else if (ua.indexOf("ipad") !== -1) {
+        Nasikusa.data.mobileMacine = "ipad";
+    } else if (ua.indexOf("android") !== -1) {
+        if (ua.indexOf("mobile") !== -1) {
+            Nasikusa.data.mobileMacine = "android_sp";
+        } else {
+            Nasikusa.data.mobileMacine = "android_tab";
+        }
+    } else {
+        Nasikusa.data.mobileMacine = "other";
+    }
+
+}
+
+/**
+ * 端末がiPhoneかiPadであるかどうか
+ * @return {bool}
+ */
+isMobileAppleDevice() {
+    return (["iphone", "ipad"].includes(Nasikusa.data.mobileMacine)) ? true : false;
+}
+
+/**
+ * 端末がiPhoneであるかどうか
+ * @return {bool}
+ */
+isiPhone() {
+    return (Nasikusa.data.mobileMacine === "iphone") ? true : false;
+}
+
+/**
+ * 端末がAndroid(タブレットorスマホ)であるかどうか
+ * @param {string} type (bot|sp|tab)
+ * @return {bool}
+ */
+isAndroid(type = "both") {
+
+    if (type === "both") {
+
+        return (["android_sp", "android_tab"].includes(Nasikusa.data.mobileMacine)) ? true : false;
+
+    } else if (type === "sp") {
+
+        return Nasikusa.data.mobileMacine === "android_sp";
+
+    } else if (type === "tab") {
+
+        return Nasikusa.data.mobileMacine === "android_tab";
+
+    }
+
+}
+
+/**
+ * 現在のブラウザを判定してscopeの変数に格納する
+ * @return {void}
+ * @todo Androidブラウザ
+ */
+saveBrowserInfo() {
+
+    var ua = window.navigator.userAgent.toLowerCase();
+
+    if (ua.indexOf("msie") !== -1 || ua.indexOf("trident") !== -1) {
+
+        Nasikusa.data.browser = "ie";
+
+    } else if (ua.indexOf("edge") !== -1) {
+
+        Nasikusa.data.browser = "edge";
+
+    } else if (ua.indexOf("chrome") !== -1) {
+
+        Nasikusa.data.browser = "chrome";
+
+    } else if (ua.indexOf("safari") !== -1) {
+
+        Nasikusa.data.browser = "safari";
+
+    } else if (ua.indexOf("firefox") !== -1) {
+
+        Nasikusa.data.browser = "firefox";
+
+    } else if (ua.indexOf("opera") !== -1) {
+
+        Nasikusa.data.browser = "opera";
+
+    } else {
+
+        Nasikusa.data.browser = "other";
+
+    }
+
+}
+
+/**
+ * ブラウザがIEであるかどうか
+ *
+ */
+isIE() {
+
+    return (Nasikusa.data.browser === "ie") ? true : false;
+
+}
+
+/**
+ * IEのバージョンが10以下であるかどうか
+ * @return {bool}
+ */
+isOlderThanIE11() {
+
+    let scope = this;
+    let ua = window.navigator.userAgent.toLowerCase();
+
+    if (scope.isIE) {
+
+        if (ua.indexOf("trident") !== -1) {
+            return false;
+        }
+
+        return true;
+
+    } else {
+        return false;
+    }
+
+}
+
+/**
+ * 使用ブラウザがIE11であるかどうか
+ * @return {bool}
+ */
+isIE11() {
+    let ua = window.navigator.userAgent.toLowerCase();
+    if (ua.indexOf("trident") !== -1) {
+        return true;
+    } else {
+        return false;
+    }
+}
